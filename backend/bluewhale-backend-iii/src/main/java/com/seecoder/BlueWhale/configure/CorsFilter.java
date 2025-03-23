@@ -26,7 +26,7 @@ import java.io.IOException;
  * 在“Access-Control-Allow-Headers”中，
  * 需要添加上token，
  * 因为前端要传输token到后端，不能过滤掉。
-*/
+ */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @WebFilter("/*")
@@ -40,9 +40,9 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, token");
         response.setHeader("Access-Control-Max-Age", "3600");
-        if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) req).getMethod())){
+        if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) req).getMethod())) {
             response.setStatus(200);
-        }else {
+        } else {
             chain.doFilter(req, res);
         }
     }

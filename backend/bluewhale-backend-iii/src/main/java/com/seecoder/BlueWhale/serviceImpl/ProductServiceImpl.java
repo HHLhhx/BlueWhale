@@ -36,9 +36,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     CommentRepository commentRepository;
 
-
     @Autowired
     EntityManager entityManager;
+
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Override
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(0);
         product.setPendingNum(0);
         productRepository.save(product);
-        logger.info(String.format("Product %s created", productVO.getName()));
+        logger.info("Product {} created", productVO.getName());
         return true;
     }
 
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
         }
         product.setStock(product.getStock() + number);
         productRepository.save(product);
-        logger.info(String.format("product %s add stock: %d", product.getName(), number));
+        logger.info("product {} add stock: {}", product.getName(), number);
         return true;
     }
 
@@ -107,12 +107,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductVO> searchFor(String storeName, String name, Double minPrice, Double maxPrice, CategoryEnum category) {
         String condition = "SELECT distinct p FROM Product p, Store s WHERE 1=1";
-        if (storeName != null && storeName.length() > 0) {
+        if (storeName != null && !storeName.isEmpty()) {
             condition = condition.concat(" AND s.name LIKE :store_name");
             condition = condition.concat(" AND s.id = p.storeId");
         }
 
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
             condition = condition.concat(" AND p.name LIKE :name");
 
         if (category != null)
@@ -124,13 +124,12 @@ public class ProductServiceImpl implements ProductService {
         if (maxPrice != null && maxPrice > 0)
             condition = condition.concat(" AND p.price <= :max_price");
 
-
         Query query = entityManager.createQuery(condition);
 
-        if (storeName != null && storeName.length() > 0)
+        if (storeName != null && !storeName.isEmpty())
             query.setParameter("store_name", "%" + storeName + "%");
 
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
             query.setParameter("name", "%" + name + "%");
 
         if (category != null)
@@ -144,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
 
         logger.info(String.format("%f %f", minPrice, maxPrice));
         List<Product> products = query.getResultList();
-        logger.info(String.format("Return number: %d", products.size()));
+        logger.info("Return number: {}", products.size());
         return products.stream().map(Product::toVO).collect(Collectors.toList());
     }
 

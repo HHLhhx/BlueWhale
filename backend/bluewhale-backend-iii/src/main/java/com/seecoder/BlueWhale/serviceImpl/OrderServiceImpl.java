@@ -55,13 +55,16 @@ import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     @Autowired
     private StoreRepository storeRepository;
 
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
     private CouponRepository couponRepository;
+
     @Autowired
     private CouponSetRepository couponSetRepository;
 
@@ -73,9 +76,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SecurityUtil securityUtil;
-
-    @Autowired
-    private TokenUtil tokenUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -106,10 +106,7 @@ public class OrderServiceImpl implements OrderService {
         order.setHasInfo(false);
         order.setAddress(user.getAddress());
         Order newOrder = orderRepository.save(order.toPO());
-        logger.info(String.format("Order for product %s in store %s created by user %s"
-                , productRepository.findById(order.getProductId()).orElse(null)
-                , storeRepository.findById(order.getStoreId()).orElse(null)
-                , user.getName()));
+        logger.info("Order for product {} in store {} created by user {}", productRepository.findById(order.getProductId()).orElse(null), storeRepository.findById(order.getStoreId()).orElse(null), user.getName());
         return newOrder.getId();
     }
 
@@ -128,7 +125,6 @@ public class OrderServiceImpl implements OrderService {
         order.setTrueTotalPrice(totalPrice);
     }
 
-
     @Override
     public Double price(Integer id, List<Integer> couponList) {
         Order order = orderRepository.findById(id).orElse(null);
@@ -144,8 +140,8 @@ public class OrderServiceImpl implements OrderService {
             currentPrice = Math.min(currentPrice, possiblePrice);
         }
 
-        logger.info("Price for " + id + " is " + currentPrice);
-        logger.info("Number of permutation is " + permutations.size());
+        logger.info("Price for {} is {}", id, currentPrice);
+        logger.info("Number of permutation is {}", permutations.size());
         return currentPrice;
     }
 
@@ -197,7 +193,6 @@ public class OrderServiceImpl implements OrderService {
         }
         return context.calculate(originalPrice);
     }
-
 
     public void pay(Integer id, boolean isDirectPay, List<Integer> couponList,
                     javax.servlet.http.HttpServletResponse httpServletResponse) {
@@ -317,7 +312,7 @@ public class OrderServiceImpl implements OrderService {
         product.setSalesAmount(order.getNum());
         orderRepository.save(order);
         productRepository.save(product);
-        logger.info(String.format("order %d delivered", order.getId()));
+        logger.info("order {} delivered", order.getId());
         return true;
     }
 
@@ -336,7 +331,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderState(OrderStateEnum.UNCOMMENT);
         orderRepository.save(order);
-        logger.info(String.format("order %d received", order.getId()));
+        logger.info("order {} received", order.getId());
         return true;
     }
 
@@ -365,7 +360,7 @@ public class OrderServiceImpl implements OrderService {
         // 基于订单的评论并不依附于别的评论
         newComment.setCommentOnId(null);
         commentRepository.save(newComment);
-        logger.info(String.format("order %d commented", order.getId()));
+        logger.info("order {} commented", order.getId());
         return true;
     }
 
@@ -406,7 +401,7 @@ public class OrderServiceImpl implements OrderService {
         item.setStoreName(store.getName());
         item.setDate(order.getCreateTime());
         item.setProductName(product.getName());
-        logger.info(String.format("store %s to excel by %s", store.getName(), securityUtil.getCurrentUser().getName()));
+        logger.info("store {} to excel by {}", store.getName(), securityUtil.getCurrentUser().getName());
         return item;
     }
 
@@ -465,7 +460,7 @@ public class OrderServiceImpl implements OrderService {
                 infoService.addInfo(order.getUserId(), InfoEnum.WARNING, mesg);
                 order.setHasInfo(true);
                 order.setOrderState(OrderStateEnum.EXPIRED);
-                logger.info(String.format("order %d expired", order.getId()));
+                logger.info("order {} expired", order.getId());
             }
             orderRepository.save(order);
         }

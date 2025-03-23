@@ -20,6 +20,7 @@ import com.seecoder.BlueWhale.vo.InfoVO;
 
 @Service
 public class InfoServiceImpl implements InfoService {
+
     @Autowired
     InfoRepository infoRepository;
 
@@ -37,7 +38,6 @@ public class InfoServiceImpl implements InfoService {
         if (user == null) {
             throw BlueWhaleException.userNotExist();
         }
-
         return infoRepository.findAllByUid(user.getId()).stream().map(Info::toVO).collect(Collectors.toList());
     }
 
@@ -45,7 +45,8 @@ public class InfoServiceImpl implements InfoService {
     public Boolean addInfo(Integer uid, InfoEnum type, String message) {
         Info newInfo = new Info(uid, type, message);
         infoRepository.save(newInfo);
-        logger.info(String.format("add info %s for user %s", message, userRepository.findById(uid)));
+        logger.info("add info {} for user {}", message, userRepository.findById(uid));
         return true;
     }
+
 }

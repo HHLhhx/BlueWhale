@@ -58,4 +58,5 @@ public class ProductController {
                                                @RequestParam("category") CategoryEnum category) {
         return ResultVO.buildSuccess(productService.searchFor(storeName, name, minPrice, maxPrice, category));
     }
+
 }

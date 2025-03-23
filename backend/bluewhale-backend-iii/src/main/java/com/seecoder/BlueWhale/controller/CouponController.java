@@ -77,4 +77,5 @@ public class CouponController {
     public ResultVO<Boolean> isValid(@PathVariable(value = "setId") Integer setId) {
         return ResultVO.buildSuccess(couponService.isValid(setId));
     }
+
 }

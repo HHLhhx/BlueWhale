@@ -15,4 +15,5 @@ public class BooleanToStringConverter implements AttributeConverter<Boolean, Str
     public Boolean convertToEntityAttribute(String dbData) {
         return "Y".equals(dbData);
     }
+
 }

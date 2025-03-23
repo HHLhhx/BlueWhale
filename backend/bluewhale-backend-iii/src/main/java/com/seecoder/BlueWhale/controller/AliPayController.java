@@ -1,30 +1,15 @@
 package com.seecoder.BlueWhale.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSONException;
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.aliyun.oss.HttpMethod;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seecoder.BlueWhale.exception.BlueWhaleException;
 import com.seecoder.BlueWhale.service.AliPayable;
 import com.seecoder.BlueWhale.service.OrderService;
-import com.seecoder.BlueWhale.vo.ResultVO;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +24,7 @@ import java.io.FileReader;
 @RestController
 @RequestMapping("/api/ali")
 public class AliPayController {
+
     @Autowired
     private OrderService orderService;
 

@@ -21,6 +21,4 @@ public class Test {
         double roundedNumber = bd.doubleValue();
         System.out.println(roundedNumber);
     }
-
-
 }

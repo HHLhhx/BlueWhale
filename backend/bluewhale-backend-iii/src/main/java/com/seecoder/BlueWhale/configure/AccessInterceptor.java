@@ -19,8 +19,10 @@ import java.util.Arrays;
 
 @Component
 public class AccessInterceptor extends HandlerInterceptorAdapter {
+
     @Autowired
     SecurityUtil securityUtil;
+
     private static final Logger log = LoggerFactory.getLogger(AccessInterceptor.class);
 
     @Override
@@ -45,4 +47,5 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             throw BlueWhaleException.illegalUserAccess();
         }
     }
+
 }

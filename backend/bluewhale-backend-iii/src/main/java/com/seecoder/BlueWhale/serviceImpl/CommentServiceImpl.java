@@ -3,8 +3,6 @@ package com.seecoder.BlueWhale.serviceImpl;
 import com.seecoder.BlueWhale.exception.BlueWhaleException;
 import com.seecoder.BlueWhale.po.Comment;
 import com.seecoder.BlueWhale.repository.CommentRepository;
-import com.seecoder.BlueWhale.repository.OrderRepository;
-import com.seecoder.BlueWhale.repository.ProductRepository;
 import com.seecoder.BlueWhale.repository.UserRepository;
 import com.seecoder.BlueWhale.service.CommentService;
 import com.seecoder.BlueWhale.util.SecurityUtil;
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -42,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment commentPO = comment.toPO();
         commentRepository.save(commentPO);
-        logger.info(String.format("add comment %s for comment %s", comment.getText(), commentOn.getText()));
+        logger.info("add comment {} for comment {}", comment.getText(), commentOn.getText());
         return true;
     }
 
@@ -84,4 +83,5 @@ public class CommentServiceImpl implements CommentService {
                 commentVO.getUserId()).get().getName());
         return commentVO;
     }
+
 }

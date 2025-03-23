@@ -16,17 +16,19 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.hibernate.annotations.FetchProfile.FetchOverride;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: GaoZhaolong
  * @Date: 14:46 2023/11/26
- *
- *        注册登录功能实现
+ * <p>
+ * 注册登录功能实现
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,6 +44,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     StoreRepository storeRepository;
+
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
+
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -54,7 +60,7 @@ public class UserServiceImpl implements UserService {
         User newUser = userVO.toPO();
         newUser.setCreateTime(Date.from(LocalDateTime.now().atZone(ZoneId.of("Asia/Shanghai")).toInstant()));
         userRepository.save(newUser);
-        logger.info(String.format("%s[%s] registered successfully", userVO.getName(), userVO.getRole()));
+        logger.info("{}[{}] registered successfully", userVO.getName(), userVO.getRole());
         return true;
     }
 
@@ -64,7 +70,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw BlueWhaleException.phoneOrPasswordError();
         }
-        logger.info(String.format("%s[%s] login", user.getName(), user.getRole()));
+        logger.info("{}[{}] login", user.getName(), user.getRole());
         return tokenUtil.getToken(user);
     }
 
@@ -90,14 +96,21 @@ public class UserServiceImpl implements UserService {
             user.setAddress(userVO.getAddress());
         }
         userRepository.save(user);
-        logger.info(String.format("%s information updated", user.getId()));
+        redisTemplate.opsForValue().set("userinfo:" + user.getId(), user.toVO().toSafeVO());
+        logger.info("{} information updated", user.getId());
         return true;
     }
 
+    // 前端没用
     @Override
     public SafeUserVO getUser(Integer id) {
+        String key = "userinfo:" + id;
+        SafeUserVO userVO = (SafeUserVO) redisTemplate.opsForValue().get(key);
+        if (userVO != null) {
+            return userVO;
+        }
         User user = userRepository.findById(id).orElse(null);
-        if (user == null){
+        if (user == null) {
             throw BlueWhaleException.userNotExist();
         }
         return user.toVO().toSafeVO();
@@ -112,4 +125,5 @@ public class UserServiceImpl implements UserService {
         userVO.setStoreName(store.getName());
         return userVO;
     }
+
 }

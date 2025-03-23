@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "`order`") 
+@Table(name = "`order`")
 public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -49,7 +49,7 @@ public class Order {
     @Column(name = "order_state")
     @Enumerated(EnumType.STRING)
     private OrderStateEnum orderState;
-    
+
     @Basic
     @Column(name = "create_time")
     private Date createTime;
@@ -74,7 +74,7 @@ public class Order {
     @Convert(converter = BooleanToStringConverter.class)
     @Column(name = "has_info")
     private Boolean hasInfo;
-    
+
     public OrderVO toVO() {
         OrderVO order = new OrderVO();
         order.setId(id);

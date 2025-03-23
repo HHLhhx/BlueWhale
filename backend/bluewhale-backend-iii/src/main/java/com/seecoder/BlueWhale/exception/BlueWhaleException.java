@@ -90,4 +90,8 @@ public class BlueWhaleException extends RuntimeException {
     public static Exception commentNotExist() {
         return new BlueWhaleException("评论不存在！");
     }
+
+    public static BlueWhaleException acquireCouponFailed() {
+        return new BlueWhaleException("领取优惠券失败！");
+    }
 }

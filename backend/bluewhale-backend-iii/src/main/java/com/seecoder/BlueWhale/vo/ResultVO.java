@@ -26,4 +26,5 @@ public class ResultVO<T> implements Serializable {
     public static <T> ResultVO<T> buildFailure(String msg) {
         return new ResultVO<T>("400", msg, null);
     }
+
 }

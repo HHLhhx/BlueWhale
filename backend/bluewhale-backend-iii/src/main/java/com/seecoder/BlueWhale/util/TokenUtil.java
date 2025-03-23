@@ -19,10 +19,11 @@ import java.util.Date;
  * token中包含了用户的Id、密码信息以及到期时间。
  * verifyToken方法用来检验token是否正确。
  * getUser方法用来从token中获得用户信息。
-*/
+ */
 @Component
 public class TokenUtil {
-    private static final long EXPIRE_TIME = 365 * 24 * 60 * 60 * 1000;
+
+    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
     @Autowired
     UserRepository userRepository;
@@ -37,18 +38,19 @@ public class TokenUtil {
 
     public boolean verifyToken(String token) {
         try {
-            Integer userId=Integer.parseInt(JWT.decode(token).getAudience().get(0));
-            User user= userRepository.findById(userId).get();
+            Integer userId = Integer.parseInt(JWT.decode(token).getAudience().get(0));
+            User user = userRepository.findById(userId).get();
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
             jwtVerifier.verify(token);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public User getUser(String token){
-        Integer userId=Integer.parseInt(JWT.decode(token).getAudience().get(0));
+    public User getUser(String token) {
+        Integer userId = Integer.parseInt(JWT.decode(token).getAudience().get(0));
         return userRepository.findById(userId).get();
     }
+
 }

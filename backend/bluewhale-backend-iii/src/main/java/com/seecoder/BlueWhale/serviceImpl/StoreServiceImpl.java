@@ -6,7 +6,6 @@ import com.seecoder.BlueWhale.po.Comment;
 import com.seecoder.BlueWhale.po.Product;
 import com.seecoder.BlueWhale.po.Store;
 import com.seecoder.BlueWhale.repository.CommentRepository;
-import com.seecoder.BlueWhale.repository.ProductRepository;
 import com.seecoder.BlueWhale.repository.StoreRepository;
 import com.seecoder.BlueWhale.service.StoreService;
 import com.seecoder.BlueWhale.vo.ProductVO;
@@ -15,8 +14,10 @@ import com.seecoder.BlueWhale.vo.StoreVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
@@ -35,10 +36,11 @@ public class StoreServiceImpl implements StoreService {
     CommentRepository commentRepository;
 
     @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
     EntityManager entityManager;
+
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
+
     private static final Logger logger = LoggerFactory.getLogger(StoreServiceImpl.class);
 
     @Override
@@ -49,22 +51,30 @@ public class StoreServiceImpl implements StoreService {
         }
         Store newStore = storeVO.toPO();
         storeRepository.save(newStore);
-        logger.info(String.format("store %s created", storeVO.getName()));
+        redisTemplate.opsForValue().set("store:" + newStore.getId(), newStore);
+        logger.info("store {} created", storeVO.getName());
         return true;
     }
 
     @Override
     public StoreVO getStore(Integer id) {
+        String key = "store:" + id;
+        Store storeCache = (Store) redisTemplate.opsForValue().get(key);
+        if (storeCache != null) {
+            return storeCache.toVO();
+        }
         Store store = storeRepository.findById(id).orElse(null);
         if (store == null) {
             throw BlueWhaleException.storeNotExists();
         }
+        redisTemplate.opsForValue().set(key, store);
         return store.toVO();
     }
 
     @Override
     public List<StoreVO> getAllStores() {
-        return storeRepository.findAll().stream().map(Store::toVO).collect(Collectors.toList());
+        List<Store> stores = storeRepository.findAll();
+        return stores.stream().map(Store::toVO).collect(Collectors.toList());
     }
 
     @Override
@@ -81,7 +91,6 @@ public class StoreServiceImpl implements StoreService {
         return result;
     }
 
-
     @Override
     public List<ProductVO> searchProducts(Integer storeId, String name, Double minPrice, Double maxPrice, CategoryEnum category) {
         String condition = "SELECT p FROM Product as p , Store as s WHERE 1=1";
@@ -89,7 +98,7 @@ public class StoreServiceImpl implements StoreService {
             condition = condition.concat(" AND p.storeId = :store_id");
         }
 
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
             condition = condition.concat(" AND p.name LIKE :name");
 
         if (category != null)
@@ -101,13 +110,12 @@ public class StoreServiceImpl implements StoreService {
         if (maxPrice != null && maxPrice > 0)
             condition = condition.concat(" AND p.price <= :max_price");
 
-
         Query query = entityManager.createQuery(condition);
 
         if (storeId != null)
             query.setParameter("store_id", storeId);
 
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
             query.setParameter("name", "%" + name + "%");
 
         if (category != null)
@@ -123,4 +131,5 @@ public class StoreServiceImpl implements StoreService {
         List<Product> products = query.getResultList();
         return products.stream().map(Product::toVO).collect(Collectors.toList());
     }
+
 }

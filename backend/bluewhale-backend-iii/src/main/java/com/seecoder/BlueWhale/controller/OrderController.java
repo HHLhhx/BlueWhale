@@ -64,7 +64,7 @@ public class OrderController {
     @PostMapping("/{id}/pay")
     @Access(roles = RoleEnum.CUSTOMER)
     public void pay(@PathVariable(value = "id") Integer id, @RequestParam(value = "isDirectPay") boolean isDirectPay,
-            @RequestBody List<Integer> couponList, HttpServletResponse httpServletResponse) {
+                    @RequestBody List<Integer> couponList, HttpServletResponse httpServletResponse) {
         orderService.pay(id, isDirectPay, couponList, httpServletResponse);
     }
 

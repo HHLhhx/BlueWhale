@@ -18,8 +18,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
+
     @Autowired
     LoginInterceptor loginInterceptor;
+
     @Autowired
     AccessInterceptor accessInterceptor;
 
@@ -34,7 +36,9 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/ali/*")
                 .order(1);
 
-        registry.addInterceptor(accessInterceptor).addPathPatterns("/**").order(2);
-   }
+        registry.addInterceptor(accessInterceptor)
+                .addPathPatterns("/**")
+                .order(2);
+    }
 
 }

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * 在preHandle方法中，通过获取请求头Header中的token，
  * 判断了token是否合法，如果不合法则抛异常，
  * 合法则将用户信息存储到request的session中。
-*/
+ */
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -29,9 +29,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
         if (token != null && tokenUtil.verifyToken(token)) {
-            request.getSession().setAttribute("currentUser",tokenUtil.getUser(token));
+            request.getSession().setAttribute("currentUser", tokenUtil.getUser(token));
             return true;
-        }else {
+        } else {
             throw BlueWhaleException.notLogin();
         }
     }

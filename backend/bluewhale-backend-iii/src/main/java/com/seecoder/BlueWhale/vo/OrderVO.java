@@ -43,7 +43,8 @@ public class OrderVO {
         order.setOrderState(orderState);
         order.setCreateTime(createTime);
         order.setTotalPrice(totalPrice);
-        order.setUserPhoneNum(userPhoneNum);;
+        order.setUserPhoneNum(userPhoneNum);
+        ;
         order.setAddress(address);
         order.setTrueTotalPrice(trueTotalPrice);
         order.setHasInfo(hasInfo);

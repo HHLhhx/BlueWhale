@@ -6,6 +6,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  redis:
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
 
 server:
   port: 8080

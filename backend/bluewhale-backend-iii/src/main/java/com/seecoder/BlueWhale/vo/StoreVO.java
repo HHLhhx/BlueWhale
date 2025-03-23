@@ -15,8 +15,8 @@ public class StoreVO {
     private String logoUrl;
     private String location;
 
-    public Store toPO(){
-        Store store=new Store();
+    public Store toPO() {
+        Store store = new Store();
         store.setId(this.id);
         store.setLocation(this.location);
         store.setLogoUrl(this.logoUrl);

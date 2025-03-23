@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 使用了RestControllerAdvice切面完成，
  * 表示所有异常出现后都会通过这里。
  * 这个类将异常信息封装到ResultVO中进行返回。
-*/
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(value = BlueWhaleException.class)
     public ResultVO<String> handleAIExternalException(BlueWhaleException e) {
         logger.error(e.getMessage());
         e.printStackTrace();
         return ResultVO.buildFailure(e.getMessage());
     }
+
 }

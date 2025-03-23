@@ -11,9 +11,9 @@ public class PermutationUtil {
 
         for (int i = 0; i < remain.size(); i++) {
             T t = remain.remove(i);
-            List<T> candidate = new ArrayList<>(current);
-            candidate.add(t);
-            addPermutation(remain, candidate, result);
+            current.add(t);
+            addPermutation(remain, current, result);
+            current.remove(current.size() - 1);
             remain.add(i, t);
         }
     }

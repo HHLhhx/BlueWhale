@@ -45,9 +45,10 @@ public class StoreController {
     // NOTE: The name is the name of product.
     @GetMapping("/{id}/search")
     ResultVO<List<ProductVO>> searchProducts(@PathVariable(value = "id") Integer storeId,
-            @RequestParam("name") String name,
-            @RequestParam("minPrice") Double minPrice, @RequestParam("maxPrice") Double maxPrice,
-            @RequestParam("category") CategoryEnum category) {
+                                             @RequestParam("name") String name,
+                                             @RequestParam("minPrice") Double minPrice, @RequestParam("maxPrice") Double maxPrice,
+                                             @RequestParam("category") CategoryEnum category) {
         return ResultVO.buildSuccess(storeService.searchProducts(storeId, name, minPrice, maxPrice, category));
     }
+
 }

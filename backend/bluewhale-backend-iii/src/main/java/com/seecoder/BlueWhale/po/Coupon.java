@@ -34,7 +34,7 @@ public class Coupon {
     @Column(name = "has_used")
     @Convert(converter = BooleanToStringConverter.class)
     Boolean hasUsed;
-    
+
     public CouponVO toVO() {
         CouponVO coupon = new CouponVO();
         coupon.setId(id);

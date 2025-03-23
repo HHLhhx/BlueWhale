@@ -2,7 +2,6 @@ package com.seecoder.BlueWhale.util;
 
 import com.aliyun.oss.*;
 import com.aliyun.oss.model.*;
-import com.seecoder.BlueWhale.serviceImpl.ImageServiceImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,10 +27,12 @@ import java.util.Date;
 @NoArgsConstructor
 @ConfigurationProperties("aliyun.oss")
 public class OssUtil {
+
     private String endpoint;
     private String accessKeyId;
     private String accessKeySecret;
     private String bucketName;
+
     private static final Logger logger = LoggerFactory.getLogger(OssUtil.class);
 
     public String upload(String objectName, InputStream inputStream) {
@@ -45,8 +46,8 @@ public class OssUtil {
             }
         }
         String url = ossClient.generatePresignedUrl(bucketName, objectName, Date.from(LocalDateTime.now().atZone(ZoneId.of("Asia/Shanghai")).toInstant())).toString().split("\\?Expires")[0];
-        logger.info("Upload image " + url);
+        logger.info("Upload image {}", url);
         return url;
     }
-}
 
+}
