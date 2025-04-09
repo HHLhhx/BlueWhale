@@ -7,10 +7,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.seecoder.BlueWhale.service.OrderService;
 
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class ScheduleController {
-    @Autowired
+//    @Autowired
     OrderService orderService;
     
     @Scheduled(fixedDelay = 10000)
