@@ -10,20 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-/**
- * @Author: DingXiaoyu
- * @Date: 0:28 2023/11/26
- * 这是一个token的工具类，
- * 设置了过期时间为1天。
- * getToken方法用来获取token，
- * token中包含了用户的Id、密码信息以及到期时间。
- * verifyToken方法用来检验token是否正确。
- * getUser方法用来从token中获得用户信息。
- */
 @Component
 public class TokenUtil {
 
-    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
 
     @Autowired
     UserRepository userRepository;

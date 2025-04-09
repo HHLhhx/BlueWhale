@@ -35,6 +35,7 @@ public class AliPayController {
         notifyServiceList.put("orderService", orderService);
     }
 
+    // 这个被阿里调用了
     @PostMapping("/notify")
     public String notify(@RequestParam(value = "service") String notifyService, HttpServletRequest httpServletRequest) {
         if (httpServletRequest.getParameter("trade_status").equals("TRADE_SUCCESS")) {
