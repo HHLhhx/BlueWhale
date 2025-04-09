@@ -24,7 +24,6 @@ public class CouponSet {
     @Column(name = "id")
     Integer id;
 
-
     @Basic
     @Column(name = "coupon_type")
     @Enumerated(EnumType.STRING)

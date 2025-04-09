@@ -8,10 +8,8 @@ import com.seecoder.BlueWhale.exception.BlueWhaleException;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.apache.logging.log4j.util.StringBuilders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import java.util.List;
 import java.util.Map;
 
 @ConfigurationProperties(prefix = "alipay")

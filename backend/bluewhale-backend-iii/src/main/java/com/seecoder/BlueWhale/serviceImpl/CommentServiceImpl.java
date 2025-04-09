@@ -69,9 +69,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         // Sort by time.
-        ret.sort(Comparator.comparingLong(commentVO -> {
-            return ((CommentVO)commentVO).getCreateTime().getTime();
-        }));
+        ret.sort(Comparator.comparingLong(commentVO -> commentVO.getCreateTime().getTime()));
         return ret;
     }
 

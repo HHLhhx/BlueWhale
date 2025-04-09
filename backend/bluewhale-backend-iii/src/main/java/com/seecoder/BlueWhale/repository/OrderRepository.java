@@ -9,7 +9,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findAllByUserId(Integer userId);
     List<Order> findAllByStoreId(Integer storeId);
-    List<Order> findAllByProductId(Integer storeId);
 
     @Query(value = "SELECT * FROM `order` as o WHERE o.order_state='UNPAID'", nativeQuery = true)
     List<Order> findAllUnpayOrder();

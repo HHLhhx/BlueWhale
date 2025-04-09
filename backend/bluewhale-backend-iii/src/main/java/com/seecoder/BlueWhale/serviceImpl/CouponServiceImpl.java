@@ -1,13 +1,9 @@
 package com.seecoder.BlueWhale.serviceImpl;
 
-import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.seecoder.BlueWhale.enums.GetCouponEnum;
 import com.seecoder.BlueWhale.enums.RoleEnum;
 import com.seecoder.BlueWhale.exception.BlueWhaleException;
@@ -22,18 +18,13 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import com.seecoder.BlueWhale.service.CouponService;
 import com.seecoder.BlueWhale.vo.CouponSetVO;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -80,7 +71,6 @@ public class CouponServiceImpl implements CouponService {
             case STAFF:
                 return couponSetRepository.findAllIdByStoreId(securityUtil.getCurrentUser().getStoreId());
             case CUSTOMER:
-                // fallthrough
             case CEO:
             case MANAGER:
                 return couponSetRepository.findAllId();

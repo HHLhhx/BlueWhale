@@ -5,7 +5,7 @@ import com.seecoder.BlueWhale.vo.UserVO;
 public class UserHolder {
     private static final ThreadLocal<UserVO> currentUser = new ThreadLocal<>();
 
-    public static void saveUser(UserVO user){
+    public static void saveUser(UserVO user) {
         currentUser.set(user);
     }
 

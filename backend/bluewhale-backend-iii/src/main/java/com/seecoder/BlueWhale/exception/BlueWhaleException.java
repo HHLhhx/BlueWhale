@@ -1,10 +1,5 @@
 package com.seecoder.BlueWhale.exception;
 
-/**
- * @Author: DingXiaoyu
- * @Date: 0:26 2023/11/26
- * 你可以在这里自定义Exception
- */
 public class BlueWhaleException extends RuntimeException {
 
     public BlueWhaleException(String message) {
@@ -77,10 +72,6 @@ public class BlueWhaleException extends RuntimeException {
 
     public static BlueWhaleException userNotExist() {
         return new BlueWhaleException("用户不存在");
-    }
-
-    public static BlueWhaleException toBeDone() {
-        return new BlueWhaleException("功能未上线!");
     }
 
     public static BlueWhaleException payError() {

@@ -6,5 +6,4 @@ import com.seecoder.BlueWhale.po.Store;
 
 public interface StoreRepository extends JpaRepository<Store, Integer> {
     Store findByName(String name);
-
 }

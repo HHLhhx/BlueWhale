@@ -15,18 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @Author: DingXiaoyu
- * @Date: 19:17 2023/12/5
- * 在SpringBoot过滤器中配置跨域，
- * 跨域配置不能和拦截器写一起，
- * 会造成冲突，
- * 需要在过滤器中配置跨域，
- * 过滤器在拦截器前进行。
- * 在“Access-Control-Allow-Headers”中，
- * 需要添加上token，
- * 因为前端要传输token到后端，不能过滤掉。
- */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @WebFilter("/*")

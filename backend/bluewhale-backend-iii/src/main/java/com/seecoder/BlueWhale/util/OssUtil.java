@@ -15,12 +15,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-/**
- * @Author: DingXiaoyu
- * @Date: 12:00 2023/12/13
- * 这个类实现了文件上传。
- * @ConfigurationProperties注解能够读取配置文件。 利用了阿里云OSS服务。
- */
 @Component
 @Getter
 @Setter

@@ -45,10 +45,13 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Boolean create(StoreVO storeVO) {
+        // 检查商店名称是否已存在
         Store store = storeRepository.findByName(storeVO.getName());
         if (store != null) {
             throw BlueWhaleException.nameAlreadyExists();
         }
+
+        // 将商店存入数据库
         Store newStore = storeVO.toPO();
         storeRepository.save(newStore);
         redisTemplate.opsForValue().set("store:" + newStore.getId(), newStore);

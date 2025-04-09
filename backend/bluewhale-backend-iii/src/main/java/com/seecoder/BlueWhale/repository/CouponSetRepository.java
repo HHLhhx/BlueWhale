@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CouponSetRepository extends JpaRepository<CouponSet, Integer> {
+
     @Query(value = "select id from coupon_set", nativeQuery = true)
     List<Integer> findAllId();
 
